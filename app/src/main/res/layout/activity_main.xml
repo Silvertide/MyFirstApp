@@ -17,28 +17,40 @@
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         android:textColor="@android:color/black"/>
-    <Button
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:text="+"
-        android:layout_marginTop="16dp"
-        android:onClick="incrementQuantity"/>
 
-    <TextView
-        android:id="@+id/quantity_text_view"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/black"/>
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:text="-"
-        android:layout_marginTop="16dp"
-        android:onClick="decrementQuantity" />
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="-"
+            android:layout_marginRight="16dp"
+            android:onClick="decrementQuantity"
+            android:id="@+id/button" />
+
+        <TextView
+            android:id="@+id/quantity_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="16sp"
+            android:layout_marginRight="16dp"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="+"
+            android:onClick="incrementQuantity"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
