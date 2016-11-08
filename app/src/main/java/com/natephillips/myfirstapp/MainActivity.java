@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.natephillips.myfirstapp.R;
 
@@ -34,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int price = quantity * 5;
-        String priceMessage = "Amount Due $" + price +"\n";
-        priceMessage += "Thank you!";
-        displayMessage(priceMessage);
+        int price = calculatePrice(quantity,5);
+
+        displayMessage(createOrderSummary("Nate Phillips", quantity, price));
     }
 
     public void incrementQuantity(View view){
         displayQuantity(++quantity);
+
     }
 
     public void decrementQuantity(View view){
@@ -56,18 +57,20 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + num);
     }
 
-
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
-
     /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
+    }
+
+    private String createOrderSummary(String name, int quantity, int price){
+       return "Name: " + name + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
+    }
+
+    private int calculatePrice(int quantity, int pricePerCup){
+        return quantity * pricePerCup;
     }
 
 }
