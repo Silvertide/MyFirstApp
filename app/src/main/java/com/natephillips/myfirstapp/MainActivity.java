@@ -8,13 +8,18 @@ package com.natephillips.myfirstapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.natephillips.myfirstapp.R;
 
 import java.text.NumberFormat;
+
+import static android.R.attr.name;
 
 /**
  * This app displays an order form to order coffee.
@@ -23,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "MessageExtra";
     private int quantity = 0;
-
+    private double whippedCreamPrice = 1.00;
+    private double chocolatePrice = 2.00;
+    private double coffeePrice = 5.00;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +42,36 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int price = calculatePrice(quantity,5);
 
-        displayMessage(createOrderSummary("Nate Phillips", quantity, price));
+        boolean hasWhippedCream = ((CheckBox) findViewById(R.id.whipped_cream_checkbox)).isChecked();
+
+        boolean hasChocolate = ((CheckBox) findViewById(R.id.chocolate_checkbox)).isChecked();
+
+        double price = calculatePrice(quantity,coffeePrice,hasWhippedCream,hasChocolate);
+
+        String nameField = ((EditText) findViewById(R.id.name_field)).getText().toString();
+
+        displayMessage(createOrderSummary(nameField, quantity, price,hasWhippedCream,hasChocolate));
     }
 
     public void incrementQuantity(View view){
-        displayQuantity(++quantity);
+        if(quantity >= 100){
+            Toast.makeText(this, "You cannot have more than 100 coffees.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            displayQuantity(++quantity);
+        }
+
 
     }
 
     public void decrementQuantity(View view){
-        if(quantity != 0) displayQuantity(--quantity);
-
+        if(quantity <= 0){
+            Toast.makeText(this, "You cannot have a negative quantity.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            displayQuantity(--quantity);
+        }
     }
     /**
      * This method displays the given quantity value on the screen.
@@ -65,12 +89,20 @@ public class MainActivity extends AppCompatActivity {
         orderSummaryTextView.setText(message);
     }
 
-    private String createOrderSummary(String name, int quantity, int price){
-       return "Name: " + name + "\nQuantity: " + quantity + "\nTotal: $" + price + "\nThank you!";
+    private String createOrderSummary(String name, int quantity, double price, boolean hasWhippedCream, boolean hasChocolate){
+        String result = "Name: " + name + "\n";
+        if(hasWhippedCream) result += "Whipped Cream: $" + whippedCreamPrice + "\n";
+        if(hasChocolate) result += "Chocolate: $" + chocolatePrice + "\n";
+        result += "Quantity: " + quantity + "\n";
+        result += "Total: $" + price + "\nThank you!";
+        return result;
     }
 
-    private int calculatePrice(int quantity, int pricePerCup){
-        return quantity * pricePerCup;
+    private double calculatePrice(int quantity, double pricePerCup, boolean hasWhippedCream, boolean hasChocolate){
+        double basePrice = pricePerCup;
+        if(hasWhippedCream) basePrice += whippedCreamPrice;
+        if(hasChocolate) basePrice += chocolatePrice;
+        return quantity * basePrice;
     }
 
 }
