@@ -77,20 +77,13 @@ public class MainActivity extends AppCompatActivity {
             displayQuantity(--quantity);
         }
     }
+
     /**
      * This method displays the given quantity value on the screen.
      */
     private void displayQuantity(int num) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         quantityTextView.setText("" + num);
-    }
-
-    /**
-     * This method displays the given text on the screen.
-     */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
     }
 
     private String createOrderSummary(String name, int quantity, double price, boolean hasWhippedCream, boolean hasChocolate){
